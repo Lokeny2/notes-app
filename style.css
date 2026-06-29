@@ -1,0 +1,23 @@
+/* Global & Body Styles */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1410 0%, #7e561a 100%);
+    min-height: 100vh;
+  padding: 40px 20px;
+}
+
+/* Container */
+.container{
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
