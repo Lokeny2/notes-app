@@ -107,3 +107,76 @@ function addNote() {
     notes.unshift(newNote); // Add to beginning of array
     saveNotes(notes);
 }
+
+// DELETE NOTE
+
+function deleteNote(id) {
+    const notes = getNotes();
+    const updatedNotes = notes.filter(note => note.id !== id);
+    saveNotes(updatedNotes);
+    renderNotes();
+}
+
+
+// EDIT NOTE
+
+function editNote(id) {
+    const notes = getNotes();
+    const note = notes.find(n => n.id === id);
+    
+    if (note) {
+        // Fill inputs with note data
+        noteTitleInput.value = note.title;
+        noteContentInput.value = note.content;
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Change button to "Update" temporarily
+        const originalText = addBtn.textContent;
+        addBtn.textContent = 'Update Note';
+        addBtn.style.backgroundColor = '#28a745';
+        
+        // Store the note id being edited
+        addBtn.dataset.editId = id;
+        
+        // Handle update on click
+        const handleUpdate = () => {
+            const updatedTitle = noteTitleInput.value.trim();
+            const updatedContent = noteContentInput.value.trim();
+            
+            if (!updatedTitle && !updatedContent) {
+                alert('Please enter a title or content.');
+                return;
+            }
+            
+            const allNotes = getNotes();
+            const noteIndex = allNotes.findIndex(n => n.id === id);
+            
+            if (noteIndex !== -1) {
+                allNotes[noteIndex].title = updatedTitle || 'Untitled';
+                allNotes[noteIndex].content = updatedContent || 'No content';
+                allNotes[noteIndex].timestamp = Date.now(); // Update timestamp
+                saveNotes(allNotes);
+            }
+            
+            // Reset button
+            addBtn.textContent = originalText;
+            addBtn.style.backgroundColor = '#7e561a';
+            delete addBtn.dataset.editId;
+            
+            // Clear inputs
+            noteTitleInput.value = '';
+            noteContentInput.value = '';
+            
+            renderNotes();
+            
+            // Remove event listener
+            addBtn.removeEventListener('click', handleUpdate);
+        };
+        
+        // Replace click handler with update handler
+        addBtn.removeEventListener('click', addNote);
+        addBtn.addEventListener('click', handleUpdate);
+    }
+}
