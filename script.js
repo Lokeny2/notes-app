@@ -15,7 +15,8 @@ function saveNotes(notes){
     localStorage.setItem('notes', JSON.stringify(notes));
 }
 
-// Render Notes
+// RENDER NOTES
+
 function renderNotes(){
     const notes = getNotes();
     const searchTerm = searchInput.value.toLowerCase();
@@ -81,4 +82,28 @@ function renderNotes(){
         card.appendChild(actions);
         notesContainer.appendChild(card);
     })
+}
+
+// ADD NOTE
+
+function addNote() {
+    const title = noteTitleInput.value.trim();
+    const content = noteContentInput.value.trim();
+    
+    // Validate input
+    if (!title && !content) {
+        alert('Please enter a title or content for your note.');
+        return;
+    }
+    
+    const notes = getNotes();
+    const newNote = {
+        id: Date.now(),
+        title: title || 'Untitled',
+        content: content || 'No content',
+        timestamp: Date.now()
+    };
+    
+    notes.unshift(newNote); // Add to beginning of array
+    saveNotes(notes);
 }
