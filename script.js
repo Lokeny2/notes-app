@@ -57,6 +57,28 @@ function renderNotes(){
             month: 'short',
             day: 'numeric',
             hour: '2-digit',
-        })
+        });
+        // Actions container
+        const actions = document.createElement('div');
+        actions.className = 'note-actions'
+        // Edit Button
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit-btn';
+        editBtn.textContent = 'Edit';
+        editBtn.addEventListener('click', () => editNote(note.id));
+         // Delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.addEventListener('click', () => deleteNote(note.id));
+
+        // Build Card
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+        card.appendChild(title);
+        card.appendChild(content);
+        card.appendChild(date);
+        card.appendChild(actions);
+        notesContainer.appendChild(card);
     })
 }
