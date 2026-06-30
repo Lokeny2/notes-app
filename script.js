@@ -19,4 +19,44 @@ function saveNotes(notes){
 function renderNotes(){
     const notes = getNotes();
     const searchTerm = searchInput.value.toLowerCase();
+
+    // Filter Notes Based on Search Term
+    const filteredNotes = notes.filter(note => {
+        const titleMatch = note.title.toLowerCase().includes(searchTerm);
+        const contentMatch = note.content.toLowerCase().includes(searchTerm);
+        return titleMatch || contentMatch;
+    });
+
+    // Clear container
+    notesContainer.innerHTML = '';
+
+    // Show Empty Message if no notes
+    if(filteredNotes.length === 0){
+        const emptyMsg = document.createElement('p');
+        emptyMsg.className = 'empty-message';
+        emptyMsg.textContent = searchTerm ? 'No notes match your search' : 'No notes yet. Write something';
+        notesContainer.appendChild(emptyMsg);
+        return;
+    }
+
+    //Create note cards
+    filteredNotes.forEach(note => {
+        const card = document.createElement('div')
+        card.className = 'note-card';
+        // Title
+        const title = document.createElement('h3');
+        title.textContent = note.title || 'Untitled';
+        // content
+        const content = document.createElement('p');
+        content.textContent = note.content || 'No content';
+        // Date
+        const date = document.createElement('div');
+        date.className = 'note-date';
+        date.textContent = new Date(note.timestamp).toLocaleTimeString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+        })
+    })
 }
